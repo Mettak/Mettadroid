@@ -38,9 +38,8 @@ namespace Mettarin.Android.Views.Dialogs
                 var dialogStatus = new DialogStatus(dialog);
                 await Action(dialogStatus);
                 dialog.Cancel();
+                Result = true;
             });
-
-            Result = true;
 
             return dialog;
         }
