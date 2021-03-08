@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\AdapterBase.cs" />
+    <Compile Include="Collections\ObservableRangeCollection.cs" />
     <Compile Include="Extensions\ContextExtension.cs" />
     <Compile Include="Hash\Sha256.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="Views\Dialogs\ProgressDialog.cs" />
     <Compile Include="Views\Dialogs\QuestionDialog.cs" />
     <Compile Include="Views\Dialogs\SimpleMessageDialog.cs" />
+    <Compile Include="Views\IView.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Android.Support.Core.Utils">
