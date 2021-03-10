@@ -36,6 +36,11 @@ namespace Mettarin.Android.Views.Dialogs
                     Result = e.Which;
                 });
             }
+
+            _builder.SetNegativeButton(Resource.String.mettarin_cancel, handler: (s, e) =>
+            {
+                Result = -1;
+            });
         }
     }
 }
