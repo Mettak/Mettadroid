@@ -50,6 +50,7 @@
     <Compile Include="Adapters\AdapterBase.cs" />
     <Compile Include="Collections\ObservableRangeCollection.cs" />
     <Compile Include="Extensions\ContextExtension.cs" />
+    <Compile Include="Extensions\ViewGroupExtension.cs" />
     <Compile Include="Hash\Sha256.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
