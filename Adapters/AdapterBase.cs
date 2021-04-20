@@ -52,6 +52,7 @@ namespace Mettarin.Android.Adapters
 
                 _loading = true;
 
+                Items.Clear();
                 await GetDataAsync();
                 OnAdapterLoaded?.Invoke(this, EventArgs.Empty);
 
