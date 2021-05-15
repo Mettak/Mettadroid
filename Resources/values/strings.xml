@@ -2,4 +2,7 @@
   <string name="mettarin_yes">Yes</string>
   <string name="mettarin_no">No</string>
   <string name="mettarin_cancel">Cancel</string>
+  <string name="mettarin_ok">OK</string>
+  <string name="mettarin_error">Error</string>
+  <string name="mettarin_error_text">An error ocurred</string>
 </resources>
