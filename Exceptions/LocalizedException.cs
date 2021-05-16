@@ -7,7 +7,7 @@ namespace Mettarin.Android.Exceptions
         public int ResourceId { get; }
 
         public LocalizedException(int resId, Exception exception)
-            : base(string.Empty, exception)
+            : base(null, exception)
         {
             ResourceId = resId;
         }
