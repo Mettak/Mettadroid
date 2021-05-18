@@ -36,6 +36,11 @@ namespace Mettarin.Android.Adapters
 
         protected abstract Task GetDataAsync();
 
+        protected virtual void OnGetDataCompleted()
+        {
+            return;
+        }
+
         protected virtual Task LoadDataLazily()
         {
             throw new NotImplementedException();
@@ -54,6 +59,7 @@ namespace Mettarin.Android.Adapters
 
                 Items.Clear();
                 await GetDataAsync();
+                OnGetDataCompleted();
                 OnAdapterLoaded?.Invoke(this, EventArgs.Empty);
 
                 if (LazyLoading)

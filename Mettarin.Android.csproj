@@ -48,6 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\AdapterBase.cs" />
+    <Compile Include="Adapters\AdapterSortable.cs" />
+    <Compile Include="Adapters\Sortable\ESortOrder.cs" />
+    <Compile Include="Adapters\Sortable\OrderSettings.cs" />
+    <Compile Include="Attributes\SortableAttribute.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Collections\ObservableRangeCollection.cs" />
     <Compile Include="Exceptions\LocalizedException.cs" />
