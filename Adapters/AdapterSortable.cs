@@ -19,6 +19,11 @@ namespace Mettarin.Android.Adapters
             {
                 OrderSettings = new OrderSettings<T>(DefaultSortOrder, DefaultSortOrderPropertyName);
             }
+
+            else
+            {
+                OrderSettings = orderSettings;
+            }
         }
 
         protected override void OnGetDataCompleted()
