@@ -23,6 +23,11 @@ namespace Mettarin.Android.Adapters
 
         protected override void OnGetDataCompleted()
         {
+            Sort();
+        }
+
+        public void Sort()
+        {
             Sort(OrderSettings);
         }
 
