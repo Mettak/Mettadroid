@@ -8,7 +8,7 @@ namespace Mettarin.Android.Views.Dialogs
 
         public int? MessageTextId { get; set; }
 
-        public int ButtonTextId { get; set; }
+        public int ButtonTextId { get; set; } = Resource.String.mettarin_ok;
 
         public SimpleMessageDialog(Context context)
             : base(context)

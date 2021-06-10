@@ -38,7 +38,10 @@ namespace Mettarin.Android.Adapters
 
         public void Sort(OrderSettings<T> orderSettings)
         {
-            OrderSettings = orderSettings;
+            if (orderSettings != OrderSettings)
+            {
+                OrderSettings = orderSettings;
+            }
 
             if (OrderSettings.SortOrder == ESortOrder.Ascending)
             {
