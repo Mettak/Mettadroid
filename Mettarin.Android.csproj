@@ -63,6 +63,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartupBase.cs" />
+    <Compile Include="ViewModels\ProgressDialogViewModel.cs" />
     <Compile Include="Views\Dialogs\DialogBase.cs" />
     <Compile Include="Views\Dialogs\DialogStatus.cs" />
     <Compile Include="Views\Dialogs\OptionSelectDialog.cs" />
@@ -94,6 +95,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\mettarin_progress_dialog.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,12 +1,13 @@
 ﻿using Android.Support.V7.App;
+using Mettarin.Android.ViewModels;
 
 namespace Mettarin.Android.Views.Dialogs
 {
     public class DialogStatus
     {
-        private readonly AlertDialog _dialog;
+        private readonly ProgressDialogViewModel _dialog;
 
-        public DialogStatus(AlertDialog dialog)
+        public DialogStatus(ProgressDialogViewModel dialog)
         {
             _dialog = dialog;
         }
@@ -15,16 +16,15 @@ namespace Mettarin.Android.Views.Dialogs
         {
             Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
             {
-                _dialog.SetMessage(status);
+                _dialog.ActionMessage = status;
             });
         }
 
         public void UpdateStatus(int status)
         {
-            string statusLocalized = _dialog.Context.Resources.GetString(status);
             Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
             {
-                _dialog.SetMessage(statusLocalized);
+                _dialog.ActionMessageId = status;
             });
         }
     }

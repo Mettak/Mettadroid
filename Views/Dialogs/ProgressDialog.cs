@@ -1,5 +1,6 @@
 ﻿using Android.Content;
 using Android.Support.V7.App;
+using Mettarin.Android.ViewModels;
 using System;
 using System.Threading.Tasks;
 
@@ -9,24 +10,19 @@ namespace Mettarin.Android.Views.Dialogs
     {
         public Func<DialogStatus, Task> Action { get; set; }
 
-        public int? ActionMessageId { get; set; }
-
-        public string ActionMessage { get; set; }
+        public ProgressDialogViewModel ViewModel { get; set; }
 
         public ProgressDialog(Context context)
             : base(context) { }
 
         protected override void DialogInit()
         {
-            if (ActionMessageId.HasValue)
+            if (ViewModel == null)
             {
-                _builder.SetMessage(ActionMessageId.Value);
+                throw new NullReferenceException(nameof(ViewModel));
             }
 
-            else
-            {
-                _builder.SetMessage(ActionMessage);
-            }
+            _builder.SetView(ViewModel.View);
         }
 
         protected override AlertDialog BeforeShow()
@@ -35,7 +31,7 @@ namespace Mettarin.Android.Views.Dialogs
 
             Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(async () =>
             {
-                var dialogStatus = new DialogStatus(dialog);
+                var dialogStatus = new DialogStatus(ViewModel);
                 await Action(dialogStatus);
                 dialog.Cancel();
                 Result = true;
