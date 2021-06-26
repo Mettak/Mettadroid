@@ -1,27 +1,32 @@
 ﻿using Android.Content;
 using Android.Views;
 using Android.Widget;
+using Mettarin.Android.Adapters.Base;
 using Mettarin.Android.Collections;
+using Mettarin.Android.EventArguments;
 using Mettarin.Android.Views;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mettarin.Android.Adapters
 {
-    public abstract class AdapterBase<T> : BaseAdapter where T : IView
+    public abstract class AdapterBase<T> : BaseAdapter where T : ILoadableView
     {
         private bool _loading = false;
 
         protected readonly Context _context;
 
-        public event EventHandler OnAdapterLoaded;
+        public event EventHandler<AdapterLoadingEventArgs> OnAdapterLoaded;
 
-        public event EventHandler OnLazyLoadingCompleted;
+        public event EventHandler<AdapterLazyLoadingEventArgs> OnLazyLoadingCompleted;
+
+        public bool Loaded { get; private set; } = false;
 
         public ObservableRangeCollection<T> Items { get; set; } = new ObservableRangeCollection<T>();
 
-        protected virtual bool LazyLoading { get; } = false;
+        public virtual ELazyLoadingSettings LazyLoadingSettings { get; } = ELazyLoadingSettings.Disabled;
 
         public AdapterBase(Context context)
         {
@@ -34,7 +39,7 @@ namespace Mettarin.Android.Adapters
             Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(NotifyDataSetChanged);
         }
 
-        protected abstract Task GetDataAsync();
+        protected abstract Task<IEnumerable<T>> GetViewModels();
 
         protected virtual void OnGetDataCompleted()
         {
@@ -46,29 +51,98 @@ namespace Mettarin.Android.Adapters
             throw new NotImplementedException();
         }
 
-        public Task Load()
+        protected virtual Task LoadSegmentLazily(IEnumerable<T> views)
         {
-            return Task.Run(async () =>
+            throw new NotImplementedException();
+        }
+
+        public void LazyLoading(IEnumerable<T> views)
+        {
+            var awaiter = LoadSegmentLazily(views).GetAwaiter();
+            awaiter.OnCompleted(() =>
             {
-                if (_loading)
+                try
                 {
-                    return;
+                    awaiter.GetResult();
+                    OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(true, null));
                 }
 
-                _loading = true;
-
-                Items.Clear();
-                await GetDataAsync();
-                OnGetDataCompleted();
-                OnAdapterLoaded?.Invoke(this, EventArgs.Empty);
-
-                if (LazyLoading)
+                catch (Exception ex)
                 {
-                    await LoadDataLazily();
-                    OnLazyLoadingCompleted?.Invoke(this, EventArgs.Empty);
+                    OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(false, ex));
+                }
+            });
+        }
+
+        public void Load()
+        {
+            if (_loading)
+            {
+                return;
+            }
+
+            _loading = true;
+
+            var getViewModelsAwaiter = GetViewModels().GetAwaiter();
+            getViewModelsAwaiter.OnCompleted(() =>
+            {
+                try
+                {
+                    var viewModels = getViewModelsAwaiter.GetResult();
+                    Items.Clear();
+                    Items.AddRange(viewModels);
+                    OnGetDataCompleted();
+                    OnAdapterLoaded?.Invoke(this, new AdapterLoadingEventArgs(true, null));
+                    Loaded = true;
+
+                    if (LazyLoadingSettings == ELazyLoadingSettings.LoadEverything)
+                    {
+                        var loadDataLazilyAwaiter = LoadDataLazily().GetAwaiter();
+                        loadDataLazilyAwaiter.OnCompleted(() =>
+                        {
+                            try
+                            {
+                                loadDataLazilyAwaiter.GetResult();
+                                OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(true, null));
+                                _loading = false;
+                            }
+
+                            catch (Exception ex)
+                            {
+                                OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(false, ex));
+                            }
+                        });
+                    }
+
+                    else if (LazyLoadingSettings == ELazyLoadingSettings.LoadVisibleSegments)
+                    {
+                        var loadDataLazilyAwaiter = LoadSegmentLazily(Items.Take(50)).GetAwaiter();
+                        loadDataLazilyAwaiter.OnCompleted(() =>
+                        {
+                            try
+                            {
+                                loadDataLazilyAwaiter.GetResult();
+                                OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(true, null));
+                                _loading = false;
+                            }
+
+                            catch (Exception ex)
+                            {
+                                OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(false, ex));
+                            }
+                        });
+                    }
+
+                    else
+                    {
+                        _loading = false;
+                    }
                 }
 
-                _loading = false;
+                catch (Exception ex)
+                {
+                    OnAdapterLoaded?.Invoke(this, new AdapterLoadingEventArgs(false, ex));
+                }
             });
         }
 

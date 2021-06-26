@@ -49,13 +49,17 @@
   <ItemGroup>
     <Compile Include="Adapters\AdapterBase.cs" />
     <Compile Include="Adapters\AdapterSortable.cs" />
+    <Compile Include="Adapters\Base\ELazyLoadingSettings.cs" />
     <Compile Include="Adapters\Sortable\ESortOrder.cs" />
     <Compile Include="Adapters\Sortable\OrderSettings.cs" />
     <Compile Include="Attributes\SortableAttribute.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Collections\ObservableRangeCollection.cs" />
+    <Compile Include="EventArguments\AdapterLazyLoadingEventArgs.cs" />
+    <Compile Include="EventArguments\AdapterLoadingEventArgs.cs" />
     <Compile Include="Exceptions\LocalizedException.cs" />
     <Compile Include="Extensions\ContextExtension.cs" />
+    <Compile Include="Extensions\ViewExtension.cs" />
     <Compile Include="Extensions\ViewGroupExtension.cs" />
     <Compile Include="Hash\Sha256.cs" />
     <Compile Include="IModuleStartup.cs" />
@@ -70,6 +74,8 @@
     <Compile Include="Views\Dialogs\ProgressDialog.cs" />
     <Compile Include="Views\Dialogs\QuestionDialog.cs" />
     <Compile Include="Views\Dialogs\SimpleMessageDialog.cs" />
+    <Compile Include="Views\GridViews\GridViewBase.cs" />
+    <Compile Include="Views\ILoadableView.cs" />
     <Compile Include="Views\IView.cs" />
   </ItemGroup>
   <ItemGroup>

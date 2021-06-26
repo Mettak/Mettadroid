@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Mettarin.Android.Adapters
 {
-    public abstract class AdapterSortable<T> : AdapterBase<T> where T : IView
+    public abstract class AdapterSortable<T> : AdapterBase<T> where T : ILoadableView
     {
         protected abstract ESortOrder DefaultSortOrder { get; }
 
