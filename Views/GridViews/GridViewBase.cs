@@ -43,6 +43,7 @@ namespace Mettarin.Android.Views.GridViews
                         _previousY = e.RawY;
                         break;
 
+                    case MotionEventActions.Move:
                     case MotionEventActions.Up:
                         var diff = Math.Abs(e.RawY - _previousY);
                         if (diff > 0)
