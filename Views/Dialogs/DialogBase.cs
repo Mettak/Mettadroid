@@ -29,10 +29,30 @@ namespace Mettarin.Android.Views.Dialogs
 
         public int? TitleTextId { get; set; }
 
+        public int? ThemeResourceId { get; set; }
+
         public DialogBase(Context context)
         {
             _context = context;
-            _builder = new AlertDialog.Builder(_context);
+
+            if (ThemeResourceId.HasValue)
+            {
+                _builder = new AlertDialog.Builder(_context, ThemeResourceId.Value);
+            }
+
+            else
+            {
+                var styleId = context.Resources.GetIdentifier("Mettarin.Dialog.Alert", "style", context.PackageName);
+                if (styleId != 0)
+                {
+                    _builder = new AlertDialog.Builder(_context, styleId);
+                }
+
+                else
+                {
+                    _builder = new AlertDialog.Builder(_context);
+                }
+            }
         }
 
         protected abstract void DialogInit();
@@ -43,7 +63,7 @@ namespace Mettarin.Android.Views.Dialogs
 
             Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
             {
-                 dialog = _builder.Show();
+                dialog = _builder.Show();
             });
 
             return dialog;

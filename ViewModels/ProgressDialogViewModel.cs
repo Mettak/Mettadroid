@@ -46,7 +46,20 @@ namespace Mettarin.Android.ViewModels
         public ProgressDialogViewModel(Context context)
         {
             _context = context;
-            var inflater = (LayoutInflater)context.GetSystemService(Context.LayoutInflaterService);
+
+            LayoutInflater inflater;
+
+            var styleId = context.Resources.GetIdentifier("Mettarin.Dialog.Alert", "style", context.PackageName);
+            if (styleId != 0)
+            {
+                inflater = LayoutInflater.From(context).CloneInContext(new ContextThemeWrapper(context, styleId));
+            }
+
+            else
+            {
+                inflater = LayoutInflater.From(context);
+            }
+
             View = inflater.Inflate(Resource.Layout.mettarin_progress_dialog, null, false);
             _progressBar = View.FindViewById<ProgressBar>(Resource.Id.progress_bar);
             _textView = View.FindViewById<TextView>(Resource.Id.text_view);
