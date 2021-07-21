@@ -31,40 +31,40 @@ namespace Mettarin.Android.Views.GridViews
         public GridViewBase(Context context, IAttributeSet attrs) : base(context, attrs)
         { }
 
-        private float _previousY = 0;
-
-        protected virtual void LazyLoading(MotionEvent e)
+        public static void LazyLoading(MotionEvent e, AdapterClass adapter, float previousYCoordinate)
         {
-            if (Adapter.LazyLoadingSettings == ELazyLoadingSettings.LoadVisibleSegments)
+            if (adapter.LazyLoadingSettings == ELazyLoadingSettings.LoadVisibleSegments)
             {
                 switch (e.Action & MotionEventActions.Mask)
                 {
                     case MotionEventActions.Down:
-                        _previousY = e.RawY;
+                        previousYCoordinate = e.RawY;
                         break;
 
                     case MotionEventActions.Move:
                     case MotionEventActions.Up:
-                        var diff = Math.Abs(e.RawY - _previousY);
+                        var diff = Math.Abs(e.RawY - previousYCoordinate);
                         if (diff > 0)
                         {
-                            var visibleViews = Adapter.Items.Where(x => !x.IsLoaded && !x.IsLoading);
+                            var visibleViews = adapter.Items.Where(x => !x.IsLoaded && !x.IsLoading);
                             if (!visibleViews.Any())
                             {
                                 break;
                             }
 
                             visibleViews = visibleViews.Where(x => x.View.IsVisible());
-                            Adapter.LazyLoading(visibleViews);
+                            adapter.LazyLoading(visibleViews);
                         }
                         break;
                 }
             }
         }
 
+        private float _previousY = 0;
+
         public override bool OnTouchEvent(MotionEvent e)
         {
-            LazyLoading(e);
+            LazyLoading(e, Adapter, _previousY);
             return base.OnTouchEvent(e);
         }
     }
