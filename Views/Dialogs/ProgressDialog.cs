@@ -8,7 +8,7 @@ namespace Mettarin.Android.Views.Dialogs
 {
     public class ProgressDialog : DialogBase<bool>
     {
-        public Func<DialogStatus, Task> Action { get; set; }
+        public Func<DialogStatus, Task<bool>> Action { get; set; }
 
         public ProgressDialogViewModel ViewModel { get; set; }
 
@@ -32,9 +32,9 @@ namespace Mettarin.Android.Views.Dialogs
             Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(async () =>
             {
                 var dialogStatus = new DialogStatus(ViewModel);
-                await Action(dialogStatus);
+                var result = await Action(dialogStatus);
                 dialog.Cancel();
-                Result = true;
+                Result = result;
             });
 
             return dialog;
