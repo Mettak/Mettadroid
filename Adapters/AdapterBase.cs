@@ -22,6 +22,8 @@ namespace Mettarin.Android.Adapters
 
         public event EventHandler<AdapterLazyLoadingEventArgs> OnLazyLoadingCompleted;
 
+        public bool IsBusy => _loading;
+
         public bool Loaded { get; private set; } = false;
 
         public ObservableRangeCollection<T> Items { get; set; } = new ObservableRangeCollection<T>();
@@ -110,6 +112,7 @@ namespace Mettarin.Android.Adapters
                             catch (Exception ex)
                             {
                                 OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(false, ex));
+                                _loading = false;
                             }
                         });
                     }
@@ -129,6 +132,7 @@ namespace Mettarin.Android.Adapters
                             catch (Exception ex)
                             {
                                 OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(false, ex));
+                                _loading = false;
                             }
                         });
                     }
