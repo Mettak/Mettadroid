@@ -60,17 +60,20 @@ namespace Mettarin.Android.Adapters
 
         public void LazyLoading(IEnumerable<T> views)
         {
+            _loading = true;
             var awaiter = LoadSegmentLazily(views).GetAwaiter();
             awaiter.OnCompleted(() =>
             {
                 try
                 {
                     awaiter.GetResult();
+                    _loading = false;
                     OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(true, null));
                 }
 
                 catch (Exception ex)
                 {
+                    _loading = false;
                     OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(false, ex));
                 }
             });
