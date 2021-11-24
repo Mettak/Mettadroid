@@ -84,9 +84,9 @@ namespace Mettarin.Android
 
         private SimpleMessageDialog LogErrorInternal(Exception ex, bool silent = false)
         {
-            if (ex is LocalizedException)
+            if (ex is LocalizedException localizedException)
             {
-                WriteLine((ex as LocalizedException).InnerException, LogPriority.Error);
+                WriteLine(localizedException.InnerException, LogPriority.Error);
             }
 
             else
@@ -105,8 +105,8 @@ namespace Mettarin.Android
             var simpleMessageDialog = new SimpleMessageDialog(_context)
             {
                 ButtonTextId = Resource.String.mettarin_ok,
-                MessageTextId = (ex is LocalizedException) ? 
-                    (ex as LocalizedException).ResourceId : Resource.String.mettarin_error_text,
+                MessageTextId = (ex is LocalizedException localized) ? 
+                    localized.ResourceId : Resource.String.mettarin_error_text,
                 TitleTextId = Resource.String.mettarin_error
             };
 

@@ -1,0 +1,8 @@
+<resources>
+  <string name="mettarin_yes">Ano</string>
+  <string name="mettarin_no">Ne</string>
+  <string name="mettarin_cancel">Zrušit</string>
+  <string name="mettarin_ok">OK</string>
+  <string name="mettarin_error">Chyba</string>
+  <string name="mettarin_error_text">Ups. Někde nastala chyba.</string>
+</resources>
