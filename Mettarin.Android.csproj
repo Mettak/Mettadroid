@@ -76,6 +76,7 @@
     <Compile Include="Views\Dialogs\SimpleMessageDialog.cs" />
     <Compile Include="Views\GridViews\GridViewBase.cs" />
     <Compile Include="Views\ILoadableView.cs" />
+    <Compile Include="Views\IStatusView.cs" />
     <Compile Include="Views\IView.cs" />
   </ItemGroup>
   <ItemGroup>

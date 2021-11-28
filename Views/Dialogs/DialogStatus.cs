@@ -1,15 +1,22 @@
-﻿using Android.Support.V7.App;
-using Mettarin.Android.ViewModels;
+﻿using Mettarin.Android.ViewModels;
 
 namespace Mettarin.Android.Views.Dialogs
 {
-    public class DialogStatus
+    public class DialogStatus : IStatusView
     {
         private readonly ProgressDialogViewModel _dialog;
 
         public DialogStatus(ProgressDialogViewModel dialog)
         {
             _dialog = dialog;
+        }
+
+        public void UpdateProgress(int newProgress)
+        {
+            Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
+            {
+                _dialog.ActionMessage = $"{newProgress}%";
+            });
         }
 
         public void UpdateStatus(string status)
