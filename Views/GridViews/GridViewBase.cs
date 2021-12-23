@@ -60,7 +60,7 @@ namespace Mettarin.Android.Views.GridViews
             }
         }
 
-        private float _previousY = 0;
+        protected float _previousY = 0;
 
         public override bool OnTouchEvent(MotionEvent e)
         {
