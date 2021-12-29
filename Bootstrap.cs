@@ -56,8 +56,18 @@ namespace Mettarin
         private static List<IModuleStartup> GetModules()
         {
             var objectTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
-                .Where(x => typeof(IModuleStartup).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                .Select(x => x).ToList();
+                .Where(x =>
+                {
+                    try
+                    {
+                        return typeof(IModuleStartup).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract;
+                    }
+
+                    catch
+                    {
+                        return false;
+                    }
+                }).Select(x => x).ToList();
             var startupTypes = new List<IModuleStartup>();
 
             objectTypes.ForEach(objectType =>
