@@ -8,12 +8,15 @@ using Mettarin.Android.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Mettarin.Android.Adapters
 {
     public abstract class AdapterBase<T> : BaseAdapter where T : ILoadableView
     {
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+
         private bool _loading = false;
 
         protected readonly Context _context;
@@ -26,7 +29,7 @@ namespace Mettarin.Android.Adapters
 
         public bool Loaded { get; private set; } = false;
 
-        public ObservableRangeCollection<T> Items { get; set; } = new ObservableRangeCollection<T>();
+        public ObservableRangeCollection<T> Items { get; } = new ObservableRangeCollection<T>();
 
         public virtual ELazyLoadingSettings LazyLoadingSettings { get; } = ELazyLoadingSettings.Disabled;
 
@@ -41,19 +44,37 @@ namespace Mettarin.Android.Adapters
             Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(NotifyDataSetChanged);
         }
 
-        protected abstract Task<IEnumerable<T>> GetViewModels();
+        protected abstract IEnumerable<T> GetViewModels();
 
-        protected virtual void OnGetDataCompleted()
+        internal Task<IEnumerable<T>> GetViewModelsInternal()
         {
-            return;
+            return Task.Run(() =>
+            {
+                return GetViewModels();
+            });
         }
 
-        protected virtual Task LoadDataLazily()
+        protected virtual void OnGetViewModelsCompleted() { return; }
+
+        internal Task LoadSegmentsLazilyInternal(IEnumerable<T> views)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                _semaphore.Wait();
+
+                try
+                {
+                    LoadSegmentLazily(views);
+                }
+
+                finally
+                {
+                    _semaphore.Release();
+                }
+            });
         }
 
-        protected virtual Task LoadSegmentLazily(IEnumerable<T> views)
+        protected virtual void LoadSegmentLazily(IEnumerable<T> viewsInSegment)
         {
             throw new NotImplementedException();
         }
@@ -61,7 +82,7 @@ namespace Mettarin.Android.Adapters
         public void LazyLoading(IEnumerable<T> views)
         {
             _loading = true;
-            var awaiter = LoadSegmentLazily(views).GetAwaiter();
+            var awaiter = LoadSegmentsLazilyInternal(views).GetAwaiter();
             awaiter.OnCompleted(() =>
             {
                 try
@@ -88,7 +109,7 @@ namespace Mettarin.Android.Adapters
 
             _loading = true;
 
-            var getViewModelsAwaiter = GetViewModels().GetAwaiter();
+            var getViewModelsAwaiter = GetViewModelsInternal().GetAwaiter();
             getViewModelsAwaiter.OnCompleted(() =>
             {
                 try
@@ -96,48 +117,18 @@ namespace Mettarin.Android.Adapters
                     var viewModels = getViewModelsAwaiter.GetResult();
                     Items.Clear();
                     Items.AddRange(viewModels);
-                    OnGetDataCompleted();
+                    OnGetViewModelsCompleted();
                     OnAdapterLoaded?.Invoke(this, new AdapterLoadingEventArgs(true, null));
                     Loaded = true;
 
                     if (LazyLoadingSettings == ELazyLoadingSettings.LoadEverything)
                     {
-                        var loadDataLazilyAwaiter = LoadDataLazily().GetAwaiter();
-                        loadDataLazilyAwaiter.OnCompleted(() =>
-                        {
-                            try
-                            {
-                                loadDataLazilyAwaiter.GetResult();
-                                OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(true, null));
-                                _loading = false;
-                            }
-
-                            catch (Exception ex)
-                            {
-                                OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(false, ex));
-                                _loading = false;
-                            }
-                        });
+                        LazyLoading(Items);
                     }
 
                     else if (LazyLoadingSettings == ELazyLoadingSettings.LoadVisibleSegments)
                     {
-                        var loadDataLazilyAwaiter = LoadSegmentLazily(Items.Take(50)).GetAwaiter();
-                        loadDataLazilyAwaiter.OnCompleted(() =>
-                        {
-                            try
-                            {
-                                loadDataLazilyAwaiter.GetResult();
-                                OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(true, null));
-                                _loading = false;
-                            }
-
-                            catch (Exception ex)
-                            {
-                                OnLazyLoadingCompleted?.Invoke(this, new AdapterLazyLoadingEventArgs(false, ex));
-                                _loading = false;
-                            }
-                        });
+                        LazyLoading(Items.Take(50));
                     }
 
                     else
@@ -153,32 +144,14 @@ namespace Mettarin.Android.Adapters
             });
         }
 
-        public override Java.Lang.Object GetItem(int position)
-        {
-            return Items[position].View;
-        }
+        public override Java.Lang.Object GetItem(int position) => Items[position].View;
 
-        public override int GetItemViewType(int position)
-        {
-            return position;
-        }
+        public override int GetItemViewType(int position) => position;
 
-        public override long GetItemId(int position)
-        {
-            return position;
-        }
+        public override long GetItemId(int position) => position;
 
-        public override View GetView(int position, View convertView, ViewGroup parent)
-        {
-            return Items.ElementAt(position).View;
-        }
+        public override View GetView(int position, View convertView, ViewGroup parent) => Items[position].View;
 
-        public override int Count
-        {
-            get
-            {
-                return Items.Count;
-            }
-        }
+        public override int Count => Items.Count;
     }
 }

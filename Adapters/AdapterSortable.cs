@@ -26,7 +26,7 @@ namespace Mettarin.Android.Adapters
             }
         }
 
-        protected override void OnGetDataCompleted()
+        protected override void OnGetViewModelsCompleted()
         {
             Sort();
         }

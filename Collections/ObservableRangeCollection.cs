@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Mettarin.Android.Collections
@@ -14,6 +15,14 @@ namespace Mettarin.Android.Collections
 
             OnCollectionChanged(new System.Collections.Specialized.NotifyCollectionChangedEventArgs(
                 System.Collections.Specialized.NotifyCollectionChangedAction.Reset));
+        }
+
+        public void ForEach(Action<T> action)
+        {
+            foreach (var item in Items)
+            {
+                action(item);
+            }
         }
     }
 }
