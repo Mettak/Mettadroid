@@ -29,7 +29,7 @@ namespace Mettarin.Android.Adapters
 
         public bool Loaded { get; private set; } = false;
 
-        public ObservableRangeCollection<T> Items { get; } = new ObservableRangeCollection<T>();
+        public AdapterObservableCollection<T> Items { get; } = new AdapterObservableCollection<T>();
 
         public virtual ELazyLoadingSettings LazyLoadingSettings { get; } = ELazyLoadingSettings.Disabled;
 

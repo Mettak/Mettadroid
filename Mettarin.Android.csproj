@@ -54,7 +54,7 @@
     <Compile Include="Adapters\Sortable\OrderSettings.cs" />
     <Compile Include="Attributes\SortableAttribute.cs" />
     <Compile Include="Bootstrap.cs" />
-    <Compile Include="Collections\ObservableRangeCollection.cs" />
+    <Compile Include="Collections\AdapterObservableCollection.cs" />
     <Compile Include="EventArguments\AdapterLazyLoadingEventArgs.cs" />
     <Compile Include="EventArguments\AdapterLoadingEventArgs.cs" />
     <Compile Include="Exceptions\LocalizedException.cs" />

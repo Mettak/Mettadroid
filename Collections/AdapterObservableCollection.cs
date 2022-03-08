@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace Mettarin.Android.Collections
 {
-    public class ObservableRangeCollection<T> : ObservableCollection<T>
+    public class AdapterObservableCollection<T> : ObservableCollection<T>
     {
         public void AddRange(IEnumerable<T> collection)
         {
