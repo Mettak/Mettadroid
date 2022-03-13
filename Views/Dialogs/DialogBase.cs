@@ -11,7 +11,7 @@ namespace Mettarin.Android.Views.Dialogs
 
         protected readonly AlertDialog.Builder _builder;
 
-        protected readonly TaskCompletionSource<T> _tcs = new TaskCompletionSource<T>();
+        private TaskCompletionSource<T> _tcs = new TaskCompletionSource<T>();
 
         private T _result = default;
 
@@ -87,6 +87,7 @@ namespace Mettarin.Android.Views.Dialogs
         public virtual async Task<T> ShowAndWaitForResult()
         {
             _result = default;
+            _tcs = new TaskCompletionSource<T>();
 
             _builder.SetCancelable(false);
 
