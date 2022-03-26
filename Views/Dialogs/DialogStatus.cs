@@ -1,6 +1,4 @@
-﻿using Mettarin.Android.ViewModels;
-
-namespace Mettarin.Android.Views.Dialogs
+﻿namespace Mettarin.Android.Views.Dialogs
 {
     public class DialogStatus : IStatusView
     {

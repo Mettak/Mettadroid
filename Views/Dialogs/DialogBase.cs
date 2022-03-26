@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 
 namespace Mettarin.Android.Views.Dialogs
 {
-    public abstract class DialogBase<T>
+    public abstract class DialogBase<ReturnType>
     {
         protected readonly Context _context;
 
         protected readonly AlertDialog.Builder _builder;
 
-        private TaskCompletionSource<T> _tcs = new TaskCompletionSource<T>();
+        private TaskCompletionSource<ReturnType> _tcs = new TaskCompletionSource<ReturnType>();
 
-        private T _result = default;
+        private ReturnType _result = default;
 
-        protected T Result
+        protected ReturnType Result
         {
             get => _result;
             set
@@ -30,6 +30,8 @@ namespace Mettarin.Android.Views.Dialogs
         public int? TitleTextId { get; set; }
 
         public int? ThemeResourceId { get; set; }
+
+        public bool Cancelable { get; set; } = false;
 
         public DialogBase(Context context)
         {
@@ -64,12 +66,19 @@ namespace Mettarin.Android.Views.Dialogs
             Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
             {
                 dialog = _builder.Show();
+                if (Cancelable)
+                {
+                    dialog.CancelEvent += (s, e) =>
+                    {
+                        Result = default;
+                    };
+                }
             });
 
             return dialog;
         }
 
-        public virtual void Show(Action<T> continuation = null)
+        public virtual void Show(Action<ReturnType> continuation = null)
         {
             var awaiter = ShowAndWaitForResult().GetAwaiter();
 
@@ -84,12 +93,12 @@ namespace Mettarin.Android.Views.Dialogs
             }
         }
 
-        public virtual async Task<T> ShowAndWaitForResult()
+        public virtual async Task<ReturnType> ShowAndWaitForResult()
         {
             _result = default;
-            _tcs = new TaskCompletionSource<T>();
+            _tcs = new TaskCompletionSource<ReturnType>();
 
-            _builder.SetCancelable(false);
+            _builder.SetCancelable(Cancelable);
 
             if (TitleTextId.HasValue)
             {
