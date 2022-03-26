@@ -31,7 +31,11 @@ namespace Mettarin.Android.Views.Dialogs
 
         public int? ThemeResourceId { get; set; }
 
-        public bool Cancelable { get; set; } = false;
+        protected virtual bool Cancelable { get; } = false;
+
+        private AlertDialog _dialog;
+
+        protected AlertDialog Dialog => _dialog;
 
         public DialogBase(Context context)
         {
@@ -66,13 +70,13 @@ namespace Mettarin.Android.Views.Dialogs
             Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
             {
                 dialog = _builder.Show();
-                if (Cancelable)
+                dialog.CancelEvent += (s, e) =>
                 {
-                    dialog.CancelEvent += (s, e) =>
+                    if (Cancelable && (Result?.Equals(default) ?? false))
                     {
                         Result = default;
-                    };
-                }
+                    }
+                };
             });
 
             return dialog;
@@ -109,9 +113,9 @@ namespace Mettarin.Android.Views.Dialogs
             {
                 _builder.SetTitle(Title);
             }
-
+            
             DialogInit();
-            BeforeShow();
+            _dialog = BeforeShow();
 
             return await _tcs.Task;
         }
