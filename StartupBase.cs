@@ -9,7 +9,7 @@ namespace Mettarin.Android
     {
         public abstract void ConfigureServices(Context context, ContainerBuilder builder);
 
-        public T GetConfiguration<T>(Context context, string configFile = "appconfig.json", string sectionName = "")
+        public static T GetConfiguration<T>(Context context, string configFile = "appconfig.json", string sectionName = "")
         {
             using var input = context.Assets.Open(configFile);
             using var streamReader = new StreamReader(input);

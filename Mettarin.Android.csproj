@@ -55,6 +55,7 @@
     <Compile Include="Attributes\SortableAttribute.cs" />
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Collections\AdapterObservableCollection.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="EventArguments\AdapterLazyLoadingEventArgs.cs" />
     <Compile Include="EventArguments\AdapterLoadingEventArgs.cs" />
     <Compile Include="Exceptions\LocalizedException.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Extensions\ViewExtension.cs" />
     <Compile Include="Extensions\ViewGroupExtension.cs" />
     <Compile Include="Hash\Sha256.cs" />
+    <Compile Include="Helpers\AssemblyHelpers.cs" />
     <Compile Include="IModuleStartup.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

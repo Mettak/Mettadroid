@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Autofac;
 using Java.Lang;
 using Mettarin.Android;
+using Mettarin.Android.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,11 @@ namespace Mettarin
 
             ContainerBuilder builder = new ContainerBuilder();
 
-            GetModules().ForEach(x =>
+            var mettaringConfig = StartupBase.GetConfiguration<Configuration>(
+                context, sectionName: "MettarinConfiguration") ?? new Configuration();
+            mettaringConfig.ModulePrefixes.Insert(0, nameof(Mettarin));
+
+            GetModules(mettaringConfig.ModulePrefixes).ForEach(x =>
             {
                 x.ConfigureServices(context, builder);
             });
@@ -53,24 +58,13 @@ namespace Mettarin
             _container = builder.Build();
         }
 
-        private static List<IModuleStartup> GetModules()
+        private static List<IModuleStartup> GetModules(List<string> prefixes)
         {
-            var objectTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
-                .Where(x =>
-                {
-                    try
-                    {
-                        return typeof(IModuleStartup).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract;
-                    }
-
-                    catch
-                    {
-                        return false;
-                    }
-                }).Select(x => x).ToList();
             var startupTypes = new List<IModuleStartup>();
+            var types = AssemblyHelpers.GetTypesFromAssembliesWithPrefixex(prefixes.ToArray()).Where(
+                x => typeof(IModuleStartup).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract).ToList();
 
-            objectTypes.ForEach(objectType =>
+            types.ForEach(objectType =>
             {
                 var instance = (IModuleStartup)Activator.CreateInstance(objectType);
                 startupTypes.Add(instance);
