@@ -21,7 +21,7 @@ namespace Mettarin
             {
                 autofacParams.Add(new TypedParameter(parameter.GetType(), parameter));
             }
-
+            
             return _container.Resolve<T>(autofacParams);
         }
 
@@ -35,6 +35,29 @@ namespace Mettarin
             }
 
             return _container.Resolve<T>(autofacParams);
+        }
+
+        public static object GetService(Type serviceType, params object[] parameters)
+        {
+            var autofacParams = new List<Autofac.Core.Parameter>();
+            foreach (var parameter in parameters)
+            {
+                autofacParams.Add(new TypedParameter(parameter.GetType(), parameter));
+            }
+
+            return _container.Resolve(serviceType, autofacParams);
+        }
+
+        public static object GetService(Type serviceType, Context context, params object[] parameters)
+        {
+            var autofacParams = new List<Autofac.Core.Parameter>();
+            autofacParams.Add(TypedParameter.From(context));
+            foreach (var parameter in parameters)
+            {
+                autofacParams.Add(new TypedParameter(parameter.GetType(), parameter));
+            }
+
+            return _container.Resolve(serviceType, autofacParams);
         }
 
         public static void ConfigureServices(Context context)
