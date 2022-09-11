@@ -105,10 +105,25 @@ namespace Mettarin.Android
             var simpleMessageDialog = new SimpleMessageDialog(_context)
             {
                 ButtonTextId = Resource.String.mettarin_ok,
-                MessageTextId = (ex is LocalizedException localized) ? 
-                    localized.ResourceId : Resource.String.mettarin_error_text,
                 TitleTextId = Resource.String.mettarin_error
             };
+
+            if (ex is LocalizedException localized)
+            {
+                string localizedString = _context.Resources.GetString(localized.ResourceId);
+
+                if (localized.Args != null && localized.Args.Length > 0)
+                {
+                    localizedString = string.Format(localizedString, localized.Args);
+                }
+
+                simpleMessageDialog.Message = localizedString;
+            }
+
+            else
+            {
+                simpleMessageDialog.MessageTextId = Resource.String.mettarin_error_text;
+            }
 
             return simpleMessageDialog;
         }
