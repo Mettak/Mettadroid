@@ -53,7 +53,7 @@
     <Compile Include="Adapters\Sortable\ESortOrder.cs" />
     <Compile Include="Adapters\Sortable\OrderSettings.cs" />
     <Compile Include="Attributes\SortableAttribute.cs" />
-    <Compile Include="Bootstrap.cs" />
+    <Compile Include="DependencyInjection.cs" />
     <Compile Include="Collections\AdapterObservableCollection.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="EventArguments\AdapterLazyLoadingEventArgs.cs" />

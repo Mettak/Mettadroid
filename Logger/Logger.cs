@@ -59,7 +59,7 @@ namespace Mettarin.Android
             var trace = new StackTrace().GetFrame(2).GetMethod();
             var callerMethod = trace.DeclaringType.FullName;
             Log.WriteLine(priority, callerMethod, message.ToString());
-            string logHeader = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss,fff} " +
+            string logHeader = $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss,fff} " +
                 $"{priority.ToString().ToUpper()}  {callerMethod}";
             string logMessage = message.ToString();
 
@@ -84,9 +84,14 @@ namespace Mettarin.Android
 
         private SimpleMessageDialog LogErrorInternal(Exception ex, bool silent = false)
         {
+            var configuration = DependencyInjection.GetService<Configuration>();
+
             if (ex is LocalizedException localizedException)
             {
-                WriteLine(localizedException.InnerException, LogPriority.Error);
+                if (configuration.Logger.SaveLocalizedExceptions)
+                {
+                    WriteLine(localizedException.InnerException, LogPriority.Error);
+                }
             }
 
             else
@@ -108,21 +113,37 @@ namespace Mettarin.Android
                 TitleTextId = Resource.String.mettarin_error
             };
 
-            if (ex is LocalizedException localized)
+            if (configuration.Logger.DebugMode)
             {
-                string localizedString = _context.Resources.GetString(localized.ResourceId);
-
-                if (localized.Args != null && localized.Args.Length > 0)
+                if (ex is LocalizedException localized)
                 {
-                    localizedString = string.Format(localizedString, localized.Args);
+                    simpleMessageDialog.Message = localized.InnerException.Message;
                 }
 
-                simpleMessageDialog.Message = localizedString;
+                else
+                {
+                    simpleMessageDialog.Message = ex.Message; ;
+                }
             }
 
             else
             {
-                simpleMessageDialog.MessageTextId = Resource.String.mettarin_error_text;
+                if (ex is LocalizedException localized)
+                {
+                    string localizedString = _context.Resources.GetString(localized.ResourceId);
+
+                    if (localized.Args != null && localized.Args.Length > 0)
+                    {
+                        localizedString = string.Format(localizedString, localized.Args);
+                    }
+
+                    simpleMessageDialog.Message = localizedString;
+                }
+
+                else
+                {
+                    simpleMessageDialog.MessageTextId = Resource.String.mettarin_error_text;
+                }
             }
 
             return simpleMessageDialog;

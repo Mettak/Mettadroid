@@ -10,12 +10,17 @@ using System.Linq;
 
 namespace Mettarin
 {
-    public static class Bootstrap
+    public static class DependencyInjection
     {
         private static IContainer _container;
 
         public static T GetService<T>(params object[] parameters)
         {
+            if (_container == null)
+            {
+                throw new System.Exception("Dependency injection not initialized!");
+            }
+
             var autofacParams = new List<Autofac.Core.Parameter>();
             foreach (var parameter in parameters)
             {
@@ -27,6 +32,11 @@ namespace Mettarin
 
         public static T GetService<T>(Context context, params object[] parameters)
         {
+            if (_container == null)
+            {
+                throw new System.Exception("Dependency injection not initialized!");
+            }
+
             var autofacParams = new List<Autofac.Core.Parameter>();
             autofacParams.Add(TypedParameter.From(context));
             foreach (var parameter in parameters)
@@ -39,6 +49,11 @@ namespace Mettarin
 
         public static object GetService(Type serviceType, params object[] parameters)
         {
+            if (_container == null)
+            {
+                throw new System.Exception("Dependency injection not initialized!");
+            }
+
             var autofacParams = new List<Autofac.Core.Parameter>();
             foreach (var parameter in parameters)
             {
@@ -50,6 +65,11 @@ namespace Mettarin
 
         public static object GetService(Type serviceType, Context context, params object[] parameters)
         {
+            if (_container == null)
+            {
+                throw new System.Exception("Dependency injection not initialized!");
+            }
+
             var autofacParams = new List<Autofac.Core.Parameter>();
             autofacParams.Add(TypedParameter.From(context));
             foreach (var parameter in parameters)
@@ -72,6 +92,7 @@ namespace Mettarin
             var mettaringConfig = StartupBase.GetConfiguration<Configuration>(
                 context, sectionName: "MettarinConfiguration") ?? new Configuration();
             mettaringConfig.ModulePrefixes.Insert(0, nameof(Mettarin));
+            builder.RegisterInstance<Configuration>(mettaringConfig).SingleInstance();
 
             GetModules(mettaringConfig.ModulePrefixes).ForEach(x =>
             {
