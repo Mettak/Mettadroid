@@ -9,7 +9,7 @@ namespace Mettarin.Android.Exceptions
         public int ResourceId { get; }
 
         public LocalizedException(int resourceId, params object[] args)
-            : base(null, new Exception())
+            : base(null, null)
         {
             ResourceId = resourceId;
             Args = args;

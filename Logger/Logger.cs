@@ -61,13 +61,12 @@ namespace Mettarin.Android
             Log.WriteLine(priority, callerMethod, message.ToString());
             string logHeader = $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss,fff} " +
                 $"{priority.ToString().ToUpper()}  {callerMethod}";
-            string logMessage = message.ToString();
 
             lock (_lock)
             {
                 using StreamWriter logWritter = new StreamWriter(CurrentLogPath, true, Encoding.UTF8);
                 logWritter.WriteLine(logHeader);
-                logWritter.WriteLine($" {logMessage}");
+                logWritter.WriteLine($" {message}");
                 logWritter.WriteLine();
             }
         }
@@ -88,7 +87,7 @@ namespace Mettarin.Android
 
             if (ex is LocalizedException localizedException)
             {
-                if (configuration.Logger.SaveLocalizedExceptions)
+                if (configuration.Logger.SaveLocalizedExceptions && localizedException.InnerException != null)
                 {
                     WriteLine(localizedException.InnerException, LogPriority.Error);
                 }
@@ -117,12 +116,20 @@ namespace Mettarin.Android
             {
                 if (ex is LocalizedException localized)
                 {
-                    simpleMessageDialog.Message = localized.InnerException.Message;
+                    if (localized.InnerException != null)
+                    {
+                        simpleMessageDialog.Message = localized.InnerException.Message;
+                    }
+
+                    else
+                    {
+                        simpleMessageDialog.MessageTextId = Resource.String.mettarin_error_text;
+                    }
                 }
 
                 else
                 {
-                    simpleMessageDialog.Message = ex.Message; ;
+                    simpleMessageDialog.Message = ex.Message;
                 }
             }
 
