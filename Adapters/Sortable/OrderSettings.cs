@@ -1,8 +1,8 @@
-﻿using Mettarin.Android.Attributes;
+﻿using Mettadroid.Attributes;
 using System;
 using System.Reflection;
 
-namespace Mettarin.Android.Adapters.Sortable
+namespace Mettadroid.Adapters.Sortable
 {
     public class OrderSettings<TSource>
     {

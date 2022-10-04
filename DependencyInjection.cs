@@ -2,13 +2,12 @@
 using Android.Content.PM;
 using Autofac;
 using Java.Lang;
-using Mettarin.Android;
-using Mettarin.Android.Helpers;
+using Mettadroid.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mettarin
+namespace Mettadroid
 {
     public static class DependencyInjection
     {
@@ -26,7 +25,7 @@ namespace Mettarin
             {
                 autofacParams.Add(new TypedParameter(parameter.GetType(), parameter));
             }
-            
+
             return _container.Resolve<T>(autofacParams);
         }
 
@@ -91,7 +90,7 @@ namespace Mettarin
 
             var mettaringConfig = StartupBase.GetConfiguration<Configuration>(
                 context, sectionName: "MettarinConfiguration") ?? new Configuration();
-            mettaringConfig.ModulePrefixes.Insert(0, nameof(Mettarin));
+            mettaringConfig.ModulePrefixes.Insert(0, nameof(Mettadroid));
             builder.RegisterInstance<Configuration>(mettaringConfig).SingleInstance();
 
             GetModules(mettaringConfig.ModulePrefixes).ForEach(x =>

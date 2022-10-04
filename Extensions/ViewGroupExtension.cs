@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mettarin.Android.Extensions
+namespace Mettadroid.Extensions
 {
     public static class ViewGroupExtension
     {

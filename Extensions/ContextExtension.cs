@@ -2,7 +2,7 @@
 using Android.OS;
 using Android.Widget;
 
-namespace Mettarin.Android.Extensions
+namespace Mettadroid.Extensions
 {
     public static class ContextExtension
     {

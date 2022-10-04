@@ -2,13 +2,13 @@
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Mettarin.Android.Adapters;
-using Mettarin.Android.Adapters.Base;
-using Mettarin.Android.Extensions;
+using Mettadroid.Adapters;
+using Mettadroid.Adapters.Base;
+using Mettadroid.Extensions;
 using System;
 using System.Linq;
 
-namespace Mettarin.Android.Views.GridViews
+namespace Mettadroid.Views.GridViews
 {
     public abstract class GridViewBase<AdapterClass, ViewModel> : GridView where AdapterClass : AdapterBase<ViewModel> where ViewModel : ILoadableView
     {

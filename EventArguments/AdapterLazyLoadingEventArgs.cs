@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mettarin.Android.EventArguments
+namespace Mettadroid.EventArguments
 {
     public class AdapterLazyLoadingEventArgs : EventArgs
     {

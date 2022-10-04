@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mettarin.Android.Views.Dialogs
+namespace Mettadroid.Views.Dialogs
 {
     public class OptionSelectDialog : DialogBase<int>
     {

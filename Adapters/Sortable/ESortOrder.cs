@@ -1,4 +1,4 @@
-﻿namespace Mettarin.Android.Adapters.Sortable
+﻿namespace Mettadroid.Adapters.Sortable
 {
     public enum ESortOrder
     {

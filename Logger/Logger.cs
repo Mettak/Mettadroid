@@ -1,7 +1,7 @@
 ﻿using Android.Content;
 using Android.OS;
-using Mettarin.Android.Exceptions;
-using Mettarin.Android.Views.Dialogs;
+using Mettadroid.Exceptions;
+using Mettadroid.Views.Dialogs;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Log = Android.Util.Log;
 using LogPriority = Android.Util.LogPriority;
 
-namespace Mettarin.Android
+namespace Mettadroid
 {
     public interface ILogger
     {

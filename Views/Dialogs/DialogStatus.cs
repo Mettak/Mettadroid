@@ -1,4 +1,4 @@
-﻿namespace Mettarin.Android.Views.Dialogs
+﻿namespace Mettadroid.Views.Dialogs
 {
     public class DialogStatus : IStatusView
     {

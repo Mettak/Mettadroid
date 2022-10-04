@@ -1,7 +1,7 @@
 ﻿using Android.Content;
 using Autofac;
 
-namespace Mettarin.Android
+namespace Mettadroid
 {
     public interface IModuleStartup
     {

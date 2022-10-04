@@ -3,7 +3,7 @@ using AndroidX.AppCompat.App;
 using System;
 using System.Threading.Tasks;
 
-namespace Mettarin.Android.Views.Dialogs
+namespace Mettadroid.Views.Dialogs
 {
     public abstract class DialogBase<ReturnType>
     {

@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Mettarin.Android.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Mettadroid.Resource", IsApplication=false)]
 
-namespace Mettarin.Android
+namespace Mettadroid
 {
 	
 	

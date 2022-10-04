@@ -1,9 +1,9 @@
 ﻿using Android.Content;
-using Mettarin.Android.Adapters.Sortable;
-using Mettarin.Android.Views;
+using Mettadroid.Adapters.Sortable;
+using Mettadroid.Views;
 using System.Linq;
 
-namespace Mettarin.Android.Adapters
+namespace Mettadroid.Adapters
 {
     public abstract class AdapterSortable<T> : AdapterBase<T> where T : ILoadableView
     {

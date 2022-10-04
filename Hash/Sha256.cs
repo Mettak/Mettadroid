@@ -2,7 +2,7 @@
 using System;
 using System.Text;
 
-namespace Mettarin.Android.Hash
+namespace Mettadroid.Hash
 {
     public class Sha256
     {

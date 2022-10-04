@@ -1,6 +1,6 @@
 ﻿using Android.Content;
 
-namespace Mettarin.Android.Views.Dialogs
+namespace Mettadroid.Views.Dialogs
 {
     public abstract class CustomDialogBase<ReturnType, ViewModelType> : DialogBase<ReturnType> where ViewModelType : IView
     {

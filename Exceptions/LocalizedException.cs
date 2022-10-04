@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mettarin.Android.Exceptions
+namespace Mettadroid.Exceptions
 {
     public class LocalizedException : Exception
     {

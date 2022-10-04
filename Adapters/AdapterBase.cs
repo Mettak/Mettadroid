@@ -1,17 +1,17 @@
 ﻿using Android.Content;
 using Android.Views;
 using Android.Widget;
-using Mettarin.Android.Adapters.Base;
-using Mettarin.Android.Collections;
-using Mettarin.Android.EventArguments;
-using Mettarin.Android.Views;
+using Mettadroid.Adapters.Base;
+using Mettadroid.Collections;
+using Mettadroid.EventArguments;
+using Mettadroid.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mettarin.Android.Adapters
+namespace Mettadroid.Adapters
 {
     public abstract class AdapterBase<T> : BaseAdapter where T : ILoadableView
     {

@@ -1,6 +1,6 @@
 ﻿using Android.Views;
 
-namespace Mettarin.Android.Views
+namespace Mettadroid.Views
 {
     public interface IView
     {

@@ -3,7 +3,7 @@ using Autofac;
 using Newtonsoft.Json.Linq;
 using System.IO;
 
-namespace Mettarin.Android
+namespace Mettadroid
 {
     public abstract class StartupBase : IModuleStartup
     {

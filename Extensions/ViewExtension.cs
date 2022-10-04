@@ -2,7 +2,7 @@
 using Android.Views;
 using Xamarin.Essentials;
 
-namespace Mettarin.Android.Extensions
+namespace Mettadroid.Extensions
 {
     public static class ViewExtension
     {

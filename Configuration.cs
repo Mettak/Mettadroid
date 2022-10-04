@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mettarin.Android
+namespace Mettadroid
 {
     public class Configuration
     {

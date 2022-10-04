@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mettarin.Android.Attributes
+namespace Mettadroid.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class SortableAttribute : Attribute

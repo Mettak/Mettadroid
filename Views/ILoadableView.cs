@@ -1,4 +1,4 @@
-﻿namespace Mettarin.Android.Views
+﻿namespace Mettadroid.Views
 {
     public interface ILoadableView : IView
     {

@@ -1,4 +1,4 @@
-﻿namespace Mettarin.Android.Adapters.Base
+﻿namespace Mettadroid.Adapters.Base
 {
     public enum ELazyLoadingSettings
     {

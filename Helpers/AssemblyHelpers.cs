@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mettarin.Android.Helpers
+namespace Mettadroid.Helpers
 {
     public static class AssemblyHelpers
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Mettarin.Android.Collections
+namespace Mettadroid.Collections
 {
     public class AdapterObservableCollection<T> : ObservableCollection<T>
     {
