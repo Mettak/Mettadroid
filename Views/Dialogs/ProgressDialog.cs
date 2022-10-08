@@ -45,7 +45,7 @@ namespace Mettadroid.Views.Dialogs
         {
             LayoutInflater inflater;
 
-            var styleId = context.Resources.GetIdentifier("Mettarin.Dialog.Alert", "style", context.PackageName);
+            var styleId = context.Resources.GetIdentifier("Mettadroid.Dialog.Alert", "style", context.PackageName);
             if (styleId != 0)
             {
                 inflater = LayoutInflater.From(context).CloneInContext(new ContextThemeWrapper(context, styleId));

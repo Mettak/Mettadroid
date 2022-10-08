@@ -89,7 +89,7 @@ namespace Mettadroid
             ContainerBuilder builder = new ContainerBuilder();
 
             var mettaringConfig = StartupBase.GetConfiguration<Configuration>(
-                context, sectionName: "MettarinConfiguration") ?? new Configuration();
+                context, sectionName: "MettadroidConfiguration") ?? new Configuration();
             mettaringConfig.ModulePrefixes.Insert(0, nameof(Mettadroid));
             builder.RegisterInstance<Configuration>(mettaringConfig).SingleInstance();
 
